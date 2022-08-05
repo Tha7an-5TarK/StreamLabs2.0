@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Data display{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main_css.css')}}">
+{% endblock %}
+
+{% block content %} 
+<nav >
+    <a href="#" class="active">Home</a>
+    <a href="#">Details</a>
+</nav>
+<!-- <div class="content"> -->
+    <!-- <img src="./img/logo.png" alt="logo not found" class="img-small"> -->
+    <img src="{{url_for('static', filename='img/logo.png')}}" alt="logo not found" class="img-small" />
+    <div class="container-2">  
+        <form action="#" method="POST">
+            <input type="text" id="m_name1" name="m_name1" placeholder="Movie name" autocomplete="off"><br>
+            <button type="submit" class="bg " name="submit_button1" value="submit_name1"><svg xmlns="http://www.w3.org/2000/svg" class="search" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>Search</button>
+        </form>
+    </div>
+    <table style="width: 80%">
+        <tr>
+            <th style="width:10%">S.No</th>
+            <th>Title</th>
+            <th>Size</th>
+            <th>Type</th>
+        </tr>
+        <!-- <tbody> -->
+        {% for i in range(_titles_lst | length): %}
+        <form action="#" method="POST">
+            <tr onclick="getID(id); load();">
+                <td>{{i+1}}</td>
+                <td><a href="/{{movie_search}}/{{i+1}}" id="{{i+1}}" class="meta_lnks">{{_titles_lst[i]}}</a></td>
+                <td>{{_size_lst[i]}}</td>
+                <td>{{fil[i]}}</td>
+            </tr>
+        </form>
+        {% endfor %}
+        <!-- </tbody> -->
+    </table>
+<!-- </div> -->
+
+
+<script type="text/javascript"> 
+    function getID(e){
+        e = e || window.event;
+        e = e.target || e.srcElement;
+        const t_id = e.id;
+        const href = e.href;
+        // console.log("ID: " + _id);
+        let g_id = {
+            'id': t_id
+        }
+        const request = new XMLHttpRequest()
+        request.open('POST', href)
+        request.onload = () => {
+            const flaskMsg = request.responseText
+            console.log(flaskMsg)
+        }
+        request.send()
+    }
+</script>
+{% endblock %}
